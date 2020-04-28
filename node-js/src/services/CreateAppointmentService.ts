@@ -3,14 +3,15 @@ import { startOfHour } from 'date-fns';
 
 import Appointment from '../models/Appointment';
 import ApppointmentsRepository from '../repositories/AppointmentsRepository';
+import AppError from '../errors/AppError';
 
 interface Request {
   date: Date;
-  provider: string;
+  provider_id: string;
 }
 
 class CreateAppointmentService {
-  public async execute({ provider, date }: Request): Promise<Appointment> {
+  public async execute({ provider_id, date }: Request): Promise<Appointment> {
     const appointmentsRepository = getCustomRepository(ApppointmentsRepository);
 
     const appointmentDate = startOfHour(date);
@@ -20,11 +21,11 @@ class CreateAppointmentService {
     );
 
     if (findAppointmentInSameDate) {
-      throw Error('This appointment date already owned');
+      throw new AppError('This appointment date already owned', 400);
     }
 
     const appointment = appointmentsRepository.create({
-      provider,
+      provider_id,
       date: appointmentDate,
     });
 
