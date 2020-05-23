@@ -1,6 +1,6 @@
 {
   "type": "postgres",
-  "host": "172.21.223.89",
+  "host": "172.23.16.196",
   "port": 5432,
   "username": "postgres",
   "password": "docker",
